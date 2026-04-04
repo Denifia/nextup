@@ -157,6 +157,8 @@ Failure:
 ## Documentation
 
 - behavior spec: [`docs/spec.md`](./docs/spec.md)
+- usage examples: [`docs/examples.md`](./docs/examples.md)
 - implementation notes: [`docs/architecture.md`](./docs/architecture.md)
 - contributor workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- security policy: [`SECURITY.md`](./SECURITY.md)
 - release history: [`CHANGELOG.md`](./CHANGELOG.md)
