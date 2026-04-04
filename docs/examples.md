@@ -55,7 +55,29 @@ The explicit window narrows the candidate window; it does not replace it.
 nextup '{"expression":"tomorrow morning","timezone":"Australia/Perth","now":"2026-04-03T18:00:00Z","avoid":[{"start":"2026-04-05T01:59:00Z","end":"2026-04-05T02:01:00Z"}]}'
 ```
 
-The default `centered` strategy still chooses the eligible minute closest to the original anchor.
+The default `centered` strategy still chooses the eligible minute closest to the anchor. For in-progress vague windows, that anchor is re-centered onto the remaining future portion instead of staying at the original midpoint.
+
+## In-progress vague window
+
+```bash
+nextup '{"expression":"this evening","timezone":"UTC","now":"2026-04-03T19:00:00Z"}'
+```
+
+```json
+{
+  "ok": true,
+  "result": "2026-04-03T20:00:00Z",
+  "resolved_window": {
+    "start": "2026-04-03T19:01:00Z",
+    "end": "2026-04-03T21:00:00Z"
+  },
+  "now": "2026-04-03T19:00:00Z",
+  "anchor": "2026-04-03T20:00:00Z",
+  "strategy": "centered"
+}
+```
+
+When a vague window is already underway, `nextup` re-centers on the remaining future portion instead of returning the next minute.
 
 ## Choose earliest or latest
 

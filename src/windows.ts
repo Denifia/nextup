@@ -65,7 +65,7 @@ export function deriveAnchorMinute(
   return midpointMinute(interval.start, interval.end);
 }
 
-function midpointMinute(start: Temporal.Instant, end: Temporal.Instant): Temporal.Instant {
+export function midpointMinute(start: Temporal.Instant, end: Temporal.Instant): Temporal.Instant {
   const startMs = start.epochMilliseconds;
   const endMs = end.epochMilliseconds;
   const midpointMs = startMs + (endMs - startMs) / 2;

@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.6.0] - 2026-04-04
+
+### Added
+
+- add a Unix-style `--help` / `-h` command with arguments, request schema, output schema, exit codes, and examples
+- add `docs/ai-assistant-install.md` as an agent install/integration contract with full install and schema details
+
+### Changed
+
+- include the `docs/` directory in the published package so local agents can read packaged documentation
+- document the agent-install workflow directly in `README.md` and align related docs around the install/integration contract terminology
+- re-center in-progress vague `day-part` and `date` windows on their remaining future-eligible portion instead of collapsing default `centered` behavior to the next minute
+- expand examples and specification docs to cover the updated in-progress vague-window behavior
+
 ## [1.5.1] - 2026-04-04
 
 ### Changed

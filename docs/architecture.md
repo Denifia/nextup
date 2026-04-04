@@ -1,6 +1,6 @@
 # nextup architecture and implementation notes
 
-This document describes the implementation shape of `nextup` v1.5.1.
+This document describes the implementation shape of `nextup`.
 
 For product behavior and contract details, see [`spec.md`](./spec.md).
 
@@ -32,6 +32,7 @@ The implementation is separated into these concerns:
 4. **Window derivation**
    - parsed intent -> candidate local interval
    - parsed intent -> local anchor instant
+   - for in-progress vague windows, later re-center anchor on the remaining future-eligible portion
 
 5. **Constraint resolution**
    - convert to UTC
@@ -176,10 +177,11 @@ Typed errors with stable error code and exit code mapping.
 8. convert to UTC
 9. intersect explicit `window`
 10. clamp to the first full minute after `now`
-11. union and subtract `avoid`
-12. enumerate eligible minutes
-13. apply selected strategy
-14. emit JSON and exit with documented code
+11. if a vague window is already in progress, re-center the anchor on the remaining future-eligible portion
+12. union and subtract `avoid`
+13. enumerate eligible minutes
+14. apply selected strategy
+15. emit JSON and exit with documented code
 
 ## Key implementation decisions
 
@@ -188,6 +190,12 @@ Typed errors with stable error code and exit code mapping.
 Structured timestamps require explicit offsets or `Z`.
 
 This avoids ambiguity and keeps behavior deterministic.
+
+### In-progress vague windows are re-centered
+
+After future clamping, vague `day-part` and `date` windows do not keep their original midpoint anchor if that would make `centered` effectively mean "next minute".
+
+Instead, the implementation re-centers on the remaining future-eligible minutes.
 
 ### `window_past` vs `window_empty`
 
@@ -213,9 +221,9 @@ Random selection uses:
 - the request seed
 - the eligible minute set
 - the anchor minute
-- implementation version `1.5.1`
+- the current version
 
-That keeps results stable for the same inputs within the same implementation version.
+That keeps results stable for the same inputs within the same nextup version.
 
 ## Testing strategy
 

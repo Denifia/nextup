@@ -1,6 +1,6 @@
 {
   "name": "@denifia/nextup",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "CLI to resolve natural-language time expressions into concrete UTC minutes.",
   "license": "MIT",
   "type": "commonjs",

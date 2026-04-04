@@ -115,4 +115,17 @@ describe("CLI", () => {
       result: "2026-04-05T02:15:00Z",
     });
   });
+
+  test("re-centers in-progress vague windows instead of returning the next minute", () => {
+    const result = runCli([
+      '{"expression":"this evening","timezone":"UTC","now":"2026-04-03T19:00:00Z"}',
+    ]);
+
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout)).toMatchObject({
+      ok: true,
+      result: "2026-04-03T20:00:00Z",
+      anchor: "2026-04-03T20:00:00Z",
+    });
+  });
 });

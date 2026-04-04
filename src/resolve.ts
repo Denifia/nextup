@@ -11,7 +11,7 @@ import { Temporal } from "@js-temporal/polyfill";
 export function resolveNextup(request: NormalizedRequest, config: EffectiveConfig): ResolutionResult {
   const parsed = parseExpression(request.expression, request.now, request.timezone);
   const candidateWindow = deriveCandidateWindow(parsed, request.timezone, config);
-  const anchorMinute = deriveAnchorMinute(parsed, request.timezone, config);
+  let anchorMinute = deriveAnchorMinute(parsed, request.timezone, config);
 
   let constrained: UtcInterval = candidateWindow;
   if (request.window) {
@@ -28,13 +28,19 @@ export function resolveNextup(request: NormalizedRequest, config: EffectiveConfi
     throw new WindowPastError();
   }
 
+  let futureClamped = false;
   if (Temporal.Instant.compare(futureStart, constrained.start) > 0) {
     constrained = { start: futureStart, end: constrained.end };
+    futureClamped = true;
   }
 
   const eligibleAfterFutureClamp = enumerateEligibleMinutes([constrained]);
   if (eligibleAfterFutureClamp.length === 0) {
     throw new WindowPastError();
+  }
+
+  if (futureClamped && (parsed.kind === "day-part" || parsed.kind === "date")) {
+    anchorMinute = eligibleAfterFutureClamp[Math.floor(eligibleAfterFutureClamp.length / 2)];
   }
 
   const remainingSegments = subtractIntervals([constrained], mergeIntervals(request.avoid));

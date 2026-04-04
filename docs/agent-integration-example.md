@@ -1,30 +1,36 @@
-# Agent integration success story
+# Agent install/integration example
 
 This is a simple example of using `nextup` as part of a real assistant workflow.
 
-A user asked their AI assistant to read the `nextup` README and work out how it could use the tool to get better at ad-hoc scheduling. The assistant correctly recognized that `nextup` fit as a resolver layer between conversational requests like "tomorrow morning" and the final scheduler that needs one concrete timestamp.
+The recommended path is to point the assistant at the agent install/integration contract:
+
+- local/package path: `docs/ai-assistant-install.md`
+- live URL: `https://github.com/Denifia/nextup/blob/main/docs/ai-assistant-install.md`
+
+A user asked their AI assistant to read that file and integrate `nextup` for ad-hoc scheduling. The assistant correctly recognized that `nextup` fit as a resolver layer between conversational requests like "tomorrow morning" and the final scheduler that needs one concrete timestamp.
 
 The nice part was how little ceremony was required. The assistant:
 
-1. understood what `nextup` does from the README
-2. proposed a concrete integration plan
-3. installed it
-4. added a local config file for preferred day-part windows
-5. updated its own notes so it would keep using `nextup` for future reminder flows
+1. read the agent install/integration contract
+2. understood what `nextup` does and what schema it expects
+3. proposed a concrete integration plan
+4. installed it
+5. added a local config file for preferred day-part windows
+6. updated its own notes so it would keep using `nextup` for future reminder flows
 
 ## The back-and-forth
 
 The conversation was roughly:
 
-> **User:** Read the `nextup` README at <https://github.com/Denifia/nextup> and figure out how you'd integrate with it to get better at ad-hoc scheduling.
+> **User:** Go read `https://github.com/Denifia/nextup/blob/main/docs/ai-assistant-install.md` and integrate with it so you handle ad-hoc scheduling better.
 >
-> **Assistant:** `nextup` is a natural-language time resolver. I can use it before creating reminders so phrases like "next Saturday evening" or "tomorrow morning" resolve to one exact UTC timestamp instead of me guessing.
+> **Assistant:** `nextup` is a natural-language time resolver. I should use it before creating reminders so phrases like "next Saturday evening" or "tomorrow morning" resolve to one exact UTC timestamp instead of me guessing. I also have the exact install steps and request/response schema. Do you want me to set that up?
 >
 > **User:** Do it.
 >
 > **Assistant:** Installed. I also added a config so day parts match your preferences and updated my internal notes so I use `nextup` before creating `at`-style scheduled reminders.
 
-That is exactly the kind of integration `nextup` is meant to make easy.
+That is exactly the kind of integration `nextup` is meant to make easy: the human points the assistant at one file, and the assistant gets the install details plus the full contract it needs.
 
 ## Why it worked well
 

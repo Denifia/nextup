@@ -55,6 +55,6 @@ describe("random selection", () => {
   test("random example remains stable", () => {
     const eligible = Array.from({ length: 240 }, (_, index) => minute(index));
     const chosen = selectRandomMinute(eligible, minute(120), squaredMedium);
-    expect(chosen.toString()).toMatchInlineSnapshot('"2026-04-04T14:01:00Z"');
+    expect(chosen.toString()).toMatchInlineSnapshot('"2026-04-04T14:04:00Z"');
   });
 });

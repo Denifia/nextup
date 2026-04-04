@@ -111,6 +111,21 @@ describe("resolveNextup", () => {
     });
   });
 
+  test("re-centers in-progress vague day-part windows to the remaining future portion", () => {
+    const request = normalizeRequest(
+      { expression: "this evening", timezone: "UTC", now: "2026-04-03T19:00:00Z" },
+      FIXED_NOW,
+    );
+
+    const response = formatSuccess(resolveNextup(request, getDefaultConfig()));
+    expect(response.result).toBe("2026-04-03T20:00:00Z");
+    expect(response.resolved_window).toEqual({
+      start: "2026-04-03T19:01:00Z",
+      end: "2026-04-03T21:00:00Z",
+    });
+    expect(response.anchor).toBe("2026-04-03T20:00:00Z");
+  });
+
   test("returns window_past after future clamp", () => {
     expect(() =>
       resolve({

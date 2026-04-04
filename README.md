@@ -48,6 +48,31 @@ npm link
 nextup '{"expression":"tomorrow morning"}'
 ```
 
+## Agent install/integration contract
+
+If you want a personal AI assistant or coding agent to install and integrate `nextup` for you, point it at [`docs/ai-assistant-install.md`](./docs/ai-assistant-install.md) and tell it to use that file as the source of truth.
+
+That file gives the agent:
+
+- what `nextup` is and is not
+- how to install it
+- how to invoke it
+- the full input schema
+- the full output schema
+- how to wire `result` into a scheduler or reminder tool
+
+Example prompts:
+
+> Read this file and use it to install and integrate `nextup`: `https://github.com/Denifia/nextup/blob/main/docs/ai-assistant-install.md`
+
+> Go read `docs/ai-assistant-install.md` and integrate with it.
+
+> Read `docs/ai-assistant-install.md`, install `nextup`, and use it whenever you need to turn vague time phrases into one exact UTC timestamp.
+
+Use the URL above if your assistant can read remote files. Use the packaged local file `docs/ai-assistant-install.md` if it is working from a local checkout or installed package.
+
+Want to see what that workflow looks like in practice? See [`docs/agent-integration-example.md`](./docs/agent-integration-example.md).
+
 ## Usage
 
 ```bash
@@ -154,6 +179,8 @@ Example:
 - `earliest` - earliest eligible minute
 - `latest` - latest eligible minute
 
+For vague windows already in progress, `centered` re-centers on the remaining future portion instead of collapsing to the next minute.
+
 ## Output
 
 `nextup` always writes exactly one JSON object to stdout.
@@ -179,7 +206,7 @@ Failure:
 
 ## Documentation
 
-- AI assistant install/integration context: [`docs/ai-assistant-install.md`](./docs/ai-assistant-install.md)
+- AI assistant install/integration contract: [`docs/ai-assistant-install.md`](./docs/ai-assistant-install.md) - hand this file to an agent and tell it to read it before integrating `nextup`
 - behavior spec: [`docs/spec.md`](./docs/spec.md)
 - usage examples: [`docs/examples.md`](./docs/examples.md)
 - agent integration example: [`docs/agent-integration-example.md`](./docs/agent-integration-example.md)

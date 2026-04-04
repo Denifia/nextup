@@ -1,14 +1,18 @@
-# nextup agent install + integration context
+# nextup agent install/integration contract
 
 Audience: AI assistants, coding agents, and automation systems.
 
-This file is intentionally written for agents, not humans skimming for product marketing.
+This file is intentionally written for agents to consume directly. Use it as the primary install/integration contract and source of truth for how to install and use `nextup`.
 
-If a user says something like:
+If a user points you at this file, your job is to understand `nextup`, install it if needed, invoke it correctly, and integrate its output into the downstream scheduling or reminder workflow.
 
-> go read this file and integrate with it
+Live URL:
 
-then your job is to treat `nextup` as a local deterministic time-resolution tool.
+`https://github.com/Denifia/nextup/blob/main/docs/ai-assistant-install.md`
+
+Packaged/local path:
+
+`docs/ai-assistant-install.md`
 
 ## What nextup is
 
@@ -184,6 +188,8 @@ Semantics:
 - `random`: deterministic seeded weighted sampling biased toward the anchor
 - `earliest`: earliest eligible minute
 - `latest`: latest eligible minute
+
+Important nuance for agents: if a vague resolved window is already in progress when `nextup` runs (for example `this evening` after the evening window has started), `nextup` re-centers the anchor on the remaining future portion instead of defaulting to the next minute.
 
 ### Random rules
 

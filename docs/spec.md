@@ -1,6 +1,6 @@
 # nextup specification
 
-Version: **1.5.1**
+Version: **1.6.0**
 
 `nextup` is a local CLI that resolves a natural-language time expression into one concrete UTC timestamp at minute precision.
 
@@ -294,7 +294,7 @@ Intervals are half-open: `[start, end)`.
 
 ## Anchor derivation
 
-The anchor is derived from the original expression meaning before hard constraints are applied.
+The anchor is usually derived from the original expression meaning before hard constraints are applied.
 
 ### Anchor rules
 
@@ -327,6 +327,8 @@ Example:
 
 - `now = 2026-04-03T18:00:30Z`
 - earliest eligible minute = `2026-04-03T18:01:00Z`
+
+If a vague resolved window is already in progress after future clamping (for example, `this evening` at 19:00 inside a `17:00-21:00` window), `nextup` shifts the anchor to the midpoint of the remaining future-constrained interval instead of leaving it at the original midpoint. This avoids default `centered` behavior collapsing to the next eligible minute.
 
 If no future time remains, return `window_past`.
 

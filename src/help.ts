@@ -57,6 +57,8 @@ export function getHelpText(): string {
     '  }',
     "  Rules: local wall-clock 24h times; end may be 24:00; omitted keys use defaults; unknown keys are ignored.",
     "",
+    '  - for vague windows already in progress, centered re-centers on the remaining future portion',
+    "",
     "Output JSON schema:",
     "  Success:",
     '    {',
