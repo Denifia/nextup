@@ -173,7 +173,8 @@ Failure:
 
 ## Documentation
 
-The detailed v1.5 spec and implementation notes currently live in [`./docs`](./docs).
+- detailed product behavior: [`docs/spec.md`](./docs/spec.md)
+- implementation notes: [`docs/architecture.md`](./docs/architecture.md)
 
 ## Contributing
 

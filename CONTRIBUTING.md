@@ -57,7 +57,7 @@ npm run build
 
 ## Scope
 
-Please keep changes aligned with the v1.5 spec in `./docs`.
+Please keep changes aligned with the v1.5 spec in `./docs/spec.md`.
 
 This project is intentionally narrow:
 
@@ -91,4 +91,4 @@ If publishing a release:
 
 User-facing usage belongs in `README.md`.
 Contributor workflow belongs in this file.
-Detailed product/spec material belongs in `./docs`.
+Detailed product/spec material belongs in `./docs/spec.md` and `./docs/architecture.md`.
