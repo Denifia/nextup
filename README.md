@@ -1,25 +1,42 @@
 # nextup
 
-`nextup` is a local CLI that resolves a natural-language time expression into one concrete UTC timestamp at minute precision.
+`nextup` resolves a natural-language time expression into one concrete UTC timestamp at minute precision.
+
+It is a **time resolver**, not a scheduler.
 
 - no network calls
 - no persistent state
 - one JSON request in
 - one JSON response out
 
-Version: **1.5.0**
+Current version: **1.5.0**
 
-## Install
+## What it does
+
+Given a human time expression plus optional constraints, `nextup` returns the exact UTC minute to use.
+
+Examples:
+
+- `"tomorrow morning"` → `2026-04-04T14:00:00Z`
+- `"next Tuesday at 2pm"` → `2026-04-07T18:00:00Z`
+
+## What it does not do
+
+`nextup` does not:
+
+- create reminders
+- store tasks
+- read calendars
+- call external APIs
+- manage recurring schedules
+
+## Installation
+
+### From a local checkout
 
 ```bash
 npm install
 npm run build
-```
-
-Run from source during development:
-
-```bash
-npm run dev -- '{"expression":"tomorrow morning"}'
 ```
 
 Run the built CLI:
@@ -28,7 +45,14 @@ Run the built CLI:
 node dist/main.js '{"expression":"tomorrow morning"}'
 ```
 
-## CLI
+Optionally link it locally as `nextup`:
+
+```bash
+npm link
+nextup '{"expression":"tomorrow morning"}'
+```
+
+## Usage
 
 ```bash
 nextup [--config <path>] '<request-json>'
@@ -38,6 +62,36 @@ or:
 
 ```bash
 echo '<request-json>' | nextup [--config <path>]
+```
+
+Exactly one JSON request must be provided:
+
+1. as the first non-flag argument, or
+2. on stdin
+
+Passing both is a usage error. Passing neither is also a usage error.
+
+## Request shape
+
+```json
+{
+  "expression": "<natural language time expression>",
+  "window": {
+    "start": "<ISO 8601 with offset>",
+    "end": "<ISO 8601 with offset>"
+  },
+  "avoid": [
+    { "start": "<ISO 8601 with offset>", "end": "<ISO 8601 with offset>" }
+  ],
+  "timezone": "<IANA timezone>",
+  "now": "<ISO 8601 with offset>",
+  "strategy": "<centered|largest-segment-midpoint|random|earliest|latest>",
+  "random": {
+    "seed": "<string>",
+    "shape": "<squared|linear>",
+    "spread": "<narrow|medium|wide>"
+  }
+}
 ```
 
 ## Example
@@ -60,20 +114,74 @@ nextup '{"expression":"tomorrow morning","timezone":"America/New_York","now":"20
 }
 ```
 
-## Scripts
+## Config file
 
-```bash
-npm run typecheck
-npm test
-npm run build
+`--config <path>` optionally overrides vague day-part defaults.
+
+Example config:
+
+```json
+{
+  "dayParts": {
+    "morning": { "start": "09:00", "end": "11:30" }
+  }
+}
 ```
 
-## Notes
+Example:
 
-The docs in [`./docs`](./docs) are the source of truth for the v1.5 behavior and contract.
+```bash
+nextup --config ./nextup.config.json '{"expression":"tomorrow morning","timezone":"America/New_York"}'
+```
+
+## Strategies
+
+Supported `strategy` values:
+
+- `centered` - closest eligible minute to the anchor
+- `largest-segment-midpoint` - midpoint of the longest eligible segment
+- `random` - deterministic seeded weighted sample biased toward the anchor
+- `earliest` - earliest eligible minute
+- `latest` - latest eligible minute
+
+`strategy` defaults to `centered`.
+
+If `strategy` is `random`, `random.seed` is required.
+
+## Output
+
+`nextup` always writes exactly one JSON object to stdout.
+
+Success:
+
+```json
+{ "ok": true, "result": "..." }
+```
+
+Failure:
+
+```json
+{ "ok": false, "error": "...", "detail": "..." }
+```
+
+## Exit codes
+
+- `0` - success
+- `2` - domain failure or invalid input
+- `64` - usage error
+- `70` - unexpected internal error
+
+## Documentation
+
+The detailed v1.5 spec and implementation notes currently live in [`./docs`](./docs).
+
+## Contributing
+
+Contributor setup and development workflow are documented in [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
 ## Releases
 
 - CI runs on pushes and pull requests.
 - GitHub releases are created from tags matching `v*`.
-- The release workflow uploads the packed npm tarball and can publish to npm when `NPM_TOKEN` is configured.
+- The release workflow uploads the npm package tarball and checksums.
+- npm publishing is supported when `NPM_TOKEN` is configured.
