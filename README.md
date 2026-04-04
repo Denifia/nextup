@@ -113,6 +113,15 @@ Key rules:
 
 `--config <path>` optionally overrides vague day-part defaults.
 
+Supported configurable day parts are:
+
+- `morning`
+- `afternoon`
+- `evening`
+- `night`
+
+Unknown/custom day-part keys are ignored.
+
 Example:
 
 ```json
