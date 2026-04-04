@@ -4,11 +4,14 @@ on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
 
 permissions:
   contents: write
   id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -25,35 +28,42 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
+      - name: Validate tag matches package version
+        shell: bash
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          TAG_NAME="${GITHUB_REF_NAME}"
+          if [ "${TAG_NAME}" != "v${PACKAGE_VERSION}" ]; then
+            echo "Tag ${TAG_NAME} does not match package.json version v${PACKAGE_VERSION}" >&2
+            exit 1
+          fi
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm test
-
-      - name: Build
-        run: npm run build
+      - name: Run release checks
+        run: npm run release:check
 
       - name: Pack npm artifact
-        run: npm pack
+        run: npm pack --json > npm-pack.json
 
       - name: Generate checksums
         shell: bash
-        run: sha256sum *.tgz > SHA256SUMS.txt
+        run: |
+          PACKAGE_FILE=$(node -p "require('./npm-pack.json')[0].filename")
+          sha256sum "${PACKAGE_FILE}" > SHA256SUMS.txt
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             *.tgz
+            npm-pack.json
             SHA256SUMS.txt
           generate_release_notes: true
 
       - name: Publish to npm
-        if: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.NPM_TOKEN != '' }}
+        if: ${{ secrets.NPM_TOKEN != '' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public

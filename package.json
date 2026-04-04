@@ -1,7 +1,7 @@
 {
   "name": "nextup",
   "version": "1.5.0",
-  "description": "Resolve a natural-language time expression into one concrete UTC timestamp at minute precision.",
+  "description": "CLI to resolve natural-language time expressions into concrete UTC minutes.",
   "license": "MIT",
   "type": "commonjs",
   "main": "dist/main.js",
@@ -11,6 +11,7 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "engines": {
@@ -27,10 +28,12 @@
   "keywords": [
     "cli",
     "time",
-    "chrono",
+    "datetime",
+    "natural-language",
     "timezone",
+    "utc",
     "temporal",
-    "scheduler"
+    "chrono"
   ],
   "scripts": {
     "clean": "node -e \"const fs=require('node:fs'); for (const p of ['dist','coverage','.tsbuildinfo']) fs.rmSync(p,{recursive:true,force:true});\"",
@@ -38,12 +41,18 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "dev": "tsx src/main.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "release:check": "npm run typecheck && npm test && npm run build && npm pack --dry-run",
+    "prepack": "npm run clean && npm run build"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
     "chrono-node": "^2.9.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "npm@11.10.1",
   "devDependencies": {
     "@types/node": "^24.5.2",
     "tsx": "^4.20.5",

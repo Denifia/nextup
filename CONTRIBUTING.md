@@ -39,6 +39,12 @@ Build:
 npm run build
 ```
 
+Release readiness check:
+
+```bash
+npm run release:check
+```
+
 Clean build output:
 
 ```bash
@@ -83,9 +89,11 @@ GitHub Actions handles CI and release automation.
 
 If publishing a release:
 
-1. update versioned artifacts as needed
-2. ensure tests and build pass
-3. create and push a tag such as `v1.5.0`
+1. update `package.json` version and `CHANGELOG.md`
+2. run `npm run release:check`
+3. create and push a matching tag such as `v1.5.0`
+
+The release workflow verifies that the pushed tag matches `package.json`.
 
 ## Documentation
 
