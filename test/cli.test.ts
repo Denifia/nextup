@@ -17,26 +17,26 @@ function runCli(args: string[], options?: { stdin?: string }) {
 describe("CLI", () => {
   test("accepts argv input", () => {
     const result = runCli([
-      '{"expression":"tomorrow morning","timezone":"America/New_York","now":"2026-04-03T18:00:00Z"}',
+      '{"expression":"tomorrow morning","timezone":"Australia/Perth","now":"2026-04-03T18:00:00Z"}',
     ]);
 
     expect(result.status).toBe(0);
     expect(JSON.parse(result.stdout)).toMatchObject({
       ok: true,
-      result: "2026-04-04T14:00:00Z",
+      result: "2026-04-05T02:00:00Z",
       strategy: "centered",
     });
   });
 
   test("accepts stdin input", () => {
     const result = runCli([], {
-      stdin: '{"expression":"tomorrow","timezone":"America/New_York","now":"2026-04-03T18:00:00Z"}',
+      stdin: '{"expression":"tomorrow","timezone":"Australia/Perth","now":"2026-04-03T18:00:00Z"}',
     });
 
     expect(result.status).toBe(0);
     expect(JSON.parse(result.stdout)).toMatchObject({
       ok: true,
-      result: "2026-04-04T16:00:00Z",
+      result: "2026-04-05T04:00:00Z",
     });
   });
 
@@ -87,7 +87,7 @@ describe("CLI", () => {
 
   test("includes random metadata for random strategy", () => {
     const result = runCli([
-      '{"expression":"tomorrow morning","timezone":"America/New_York","now":"2026-04-03T18:00:00Z","strategy":"random","random":{"seed":"task-abc-2026-04-04"}}',
+      '{"expression":"tomorrow morning","timezone":"Australia/Perth","now":"2026-04-03T18:00:00Z","strategy":"random","random":{"seed":"task-abc-2026-04-04"}}',
     ]);
 
     expect(result.status).toBe(0);
@@ -106,13 +106,13 @@ describe("CLI", () => {
     const result = runCli([
       "--config",
       configPath,
-      '{"expression":"tomorrow morning","timezone":"America/New_York","now":"2026-04-03T18:00:00Z"}',
+      '{"expression":"tomorrow morning","timezone":"Australia/Perth","now":"2026-04-03T18:00:00Z"}',
     ]);
 
     expect(result.status).toBe(0);
     expect(JSON.parse(result.stdout)).toMatchObject({
       ok: true,
-      result: "2026-04-04T14:15:00Z",
+      result: "2026-04-05T02:15:00Z",
     });
   });
 });

@@ -15,8 +15,8 @@ Given a human time expression plus optional constraints, `nextup` returns the ex
 
 Examples:
 
-- `"tomorrow morning"` → `2026-04-04T14:00:00Z`
-- `"next Tuesday at 2pm"` → `2026-04-07T18:00:00Z`
+- `"tomorrow morning"` → `2026-04-05T02:00:00Z`
+- `"next Tuesday at 2pm"` → `2026-04-07T06:00:00Z`
 
 ## Install
 
@@ -60,19 +60,19 @@ Exactly one JSON request must be provided:
 ## Quick example
 
 ```bash
-nextup '{"expression":"tomorrow morning","timezone":"America/New_York","now":"2026-04-03T18:00:00Z"}'
+nextup '{"expression":"tomorrow morning","timezone":"Australia/Perth","now":"2026-04-03T18:00:00Z"}'
 ```
 
 ```json
 {
   "ok": true,
-  "result": "2026-04-04T14:00:00Z",
+  "result": "2026-04-05T02:00:00Z",
   "resolved_window": {
-    "start": "2026-04-04T12:00:00Z",
-    "end": "2026-04-04T16:00:00Z"
+    "start": "2026-04-05T00:00:00Z",
+    "end": "2026-04-05T04:00:00Z"
   },
   "now": "2026-04-03T18:00:00Z",
-  "anchor": "2026-04-04T14:00:00Z",
+  "anchor": "2026-04-05T02:00:00Z",
   "strategy": "centered"
 }
 ```

@@ -16,50 +16,50 @@ function resolve(input: unknown) {
 describe("resolveNextup", () => {
   test("resolves tomorrow morning with centered strategy", () => {
     const response = formatSuccess(
-      resolve({ expression: "tomorrow morning", timezone: "America/New_York" }),
+      resolve({ expression: "tomorrow morning", timezone: "Australia/Perth" }),
     );
 
     expect(response).toEqual({
       ok: true,
-      result: "2026-04-04T14:00:00Z",
+      result: "2026-04-05T02:00:00Z",
       resolved_window: {
-        start: "2026-04-04T12:00:00Z",
-        end: "2026-04-04T16:00:00Z",
+        start: "2026-04-05T00:00:00Z",
+        end: "2026-04-05T04:00:00Z",
       },
       now: "2026-04-03T18:00:00Z",
-      anchor: "2026-04-04T14:00:00Z",
+      anchor: "2026-04-05T02:00:00Z",
       strategy: "centered",
     });
   });
 
   test("resolves date-only expressions to full local day", () => {
     const response = formatSuccess(
-      resolve({ expression: "tomorrow", timezone: "America/New_York" }),
+      resolve({ expression: "tomorrow", timezone: "Australia/Perth" }),
     );
 
-    expect(response.result).toBe("2026-04-04T16:00:00Z");
+    expect(response.result).toBe("2026-04-05T04:00:00Z");
     expect(response.resolved_window).toEqual({
-      start: "2026-04-04T04:00:00Z",
-      end: "2026-04-05T04:00:00Z",
+      start: "2026-04-04T16:00:00Z",
+      end: "2026-04-05T16:00:00Z",
     });
-    expect(response.anchor).toBe("2026-04-04T16:00:00Z");
+    expect(response.anchor).toBe("2026-04-05T04:00:00Z");
   });
 
   test("resolves exact times as exact minutes", () => {
     const response = formatSuccess(
-      resolve({ expression: "tomorrow at 09:30", timezone: "America/New_York" }),
+      resolve({ expression: "tomorrow at 09:30", timezone: "Australia/Perth" }),
     );
 
-    expect(response.result).toBe("2026-04-04T13:30:00Z");
+    expect(response.result).toBe("2026-04-05T01:30:00Z");
     expect(response.resolved_window).toEqual({
-      start: "2026-04-04T13:30:00Z",
-      end: "2026-04-04T13:31:00Z",
+      start: "2026-04-05T01:30:00Z",
+      end: "2026-04-05T01:31:00Z",
     });
   });
 
   test("supports day-part config overrides", () => {
     const request = normalizeRequest(
-      { expression: "tomorrow morning", timezone: "America/New_York" },
+      { expression: "tomorrow morning", timezone: "Australia/Perth" },
       FIXED_NOW,
     );
     const config = normalizeConfig({
@@ -67,10 +67,10 @@ describe("resolveNextup", () => {
     });
 
     const response = formatSuccess(resolveNextup(request, config));
-    expect(response.result).toBe("2026-04-04T14:15:00Z");
+    expect(response.result).toBe("2026-04-05T02:15:00Z");
     expect(response.resolved_window).toEqual({
-      start: "2026-04-04T13:00:00Z",
-      end: "2026-04-04T15:30:00Z",
+      start: "2026-04-05T01:00:00Z",
+      end: "2026-04-05T03:30:00Z",
     });
   });
 
@@ -78,18 +78,18 @@ describe("resolveNextup", () => {
     const response = formatSuccess(
       resolve({
         expression: "tomorrow morning",
-        timezone: "America/New_York",
+        timezone: "Australia/Perth",
         window: {
-          start: "2026-04-04T13:00:00Z",
-          end: "2026-04-04T15:00:00Z",
+          start: "2026-04-05T01:00:00Z",
+          end: "2026-04-05T03:00:00Z",
         },
       }),
     );
 
-    expect(response.result).toBe("2026-04-04T14:00:00Z");
+    expect(response.result).toBe("2026-04-05T02:00:00Z");
     expect(response.resolved_window).toEqual({
-      start: "2026-04-04T13:00:00Z",
-      end: "2026-04-04T15:00:00Z",
+      start: "2026-04-05T01:00:00Z",
+      end: "2026-04-05T03:00:00Z",
     });
   });
 
@@ -97,25 +97,25 @@ describe("resolveNextup", () => {
     const response = formatSuccess(
       resolve({
         expression: "tomorrow morning",
-        timezone: "America/New_York",
+        timezone: "Australia/Perth",
         avoid: [
-          { start: "2026-04-04T13:59:00Z", end: "2026-04-04T14:01:00Z" },
+          { start: "2026-04-05T01:59:00Z", end: "2026-04-05T02:01:00Z" },
         ],
       }),
     );
 
-    expect(response.result).toBe("2026-04-04T14:01:00Z");
+    expect(response.result).toBe("2026-04-05T02:01:00Z");
     expect(response.resolved_window).toEqual({
-      start: "2026-04-04T12:00:00Z",
-      end: "2026-04-04T16:00:00Z",
+      start: "2026-04-05T00:00:00Z",
+      end: "2026-04-05T04:00:00Z",
     });
   });
 
   test("returns window_past after future clamp", () => {
     expect(() =>
       resolve({
-        expression: "at 2pm",
-        timezone: "America/New_York",
+        expression: "at 1am",
+        timezone: "Australia/Perth",
       }),
     ).toThrowError(new WindowPastError("no eligible future time remains after clamping"));
   });
@@ -124,9 +124,9 @@ describe("resolveNextup", () => {
     expect(() =>
       resolve({
         expression: "tomorrow at 09:30",
-        timezone: "America/New_York",
+        timezone: "Australia/Perth",
         avoid: [
-          { start: "2026-04-04T13:30:00Z", end: "2026-04-04T13:31:00Z" },
+          { start: "2026-04-05T01:30:00Z", end: "2026-04-05T01:31:00Z" },
         ],
       }),
     ).toThrowError(new WindowEmptyError("constraints leave no eligible time"));

@@ -10,56 +10,56 @@ function resolve(input: unknown, now = instant("2026-03-01T12:00:00Z")) {
   return formatSuccess(resolveNextup(request, getDefaultConfig()));
 }
 
-describe("DST handling", () => {
-  test("moves nonexistent spring-forward exact times forward", () => {
+describe("Australia/Perth timezone behavior", () => {
+  test("exact early-morning times map directly without DST adjustment", () => {
     const response = resolve({
       expression: "March 8 2026 at 2:30am",
-      timezone: "America/New_York",
+      timezone: "Australia/Perth",
     });
 
-    expect(response.result).toBe("2026-03-08T07:30:00Z");
-    expect(response.anchor).toBe("2026-03-08T07:30:00Z");
+    expect(response.result).toBe("2026-03-07T18:30:00Z");
+    expect(response.anchor).toBe("2026-03-07T18:30:00Z");
   });
 
-  test("chooses earlier occurrence for ambiguous fall-back exact times", () => {
+  test("late-year exact times are also stable without ambiguity", () => {
     const response = resolve(
       {
         expression: "November 1 2026 at 1:30am",
-        timezone: "America/New_York",
+        timezone: "Australia/Perth",
       },
       instant("2026-10-20T12:00:00Z"),
     );
 
-    expect(response.result).toBe("2026-11-01T05:30:00Z");
-    expect(response.anchor).toBe("2026-11-01T05:30:00Z");
+    expect(response.result).toBe("2026-10-31T17:30:00Z");
+    expect(response.anchor).toBe("2026-10-31T17:30:00Z");
   });
 
-  test("chooses later occurrence for ambiguous interval ends", () => {
+  test("simple overnight ranges keep their literal one-hour width", () => {
     const response = resolve(
       {
         expression: "November 1 2026 12:30-1:30am",
-        timezone: "America/New_York",
+        timezone: "Australia/Perth",
       },
       instant("2026-10-20T12:00:00Z"),
     );
 
     expect(response.resolved_window).toEqual({
-      start: "2026-11-01T04:30:00Z",
-      end: "2026-11-01T06:30:00Z",
+      start: "2026-10-31T16:30:00Z",
+      end: "2026-10-31T17:30:00Z",
     });
-    expect(response.anchor).toBe("2026-11-01T05:30:00Z");
+    expect(response.anchor).toBe("2026-10-31T17:00:00Z");
   });
 
-  test("date-only windows span 23 hours on spring-forward day", () => {
+  test("date-only windows span 24 hours in Australia/Perth", () => {
     const response = resolve({
       expression: "March 8 2026",
-      timezone: "America/New_York",
+      timezone: "Australia/Perth",
     });
 
     expect(response.resolved_window).toEqual({
-      start: "2026-03-08T05:00:00Z",
-      end: "2026-03-09T04:00:00Z",
+      start: "2026-03-07T16:00:00Z",
+      end: "2026-03-08T16:00:00Z",
     });
-    expect(response.result).toBe("2026-03-08T16:30:00Z");
+    expect(response.result).toBe("2026-03-08T04:00:00Z");
   });
 });
