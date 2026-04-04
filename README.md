@@ -60,6 +60,12 @@ or:
 echo '<request-json>' | nextup [--config <path>]
 ```
 
+Help:
+
+```bash
+nextup --help
+```
+
 Exactly one JSON request must be provided:
 
 1. as the first non-flag argument, or
@@ -173,6 +179,7 @@ Failure:
 
 ## Documentation
 
+- AI assistant install/integration context: [`docs/ai-assistant-install.md`](./docs/ai-assistant-install.md)
 - behavior spec: [`docs/spec.md`](./docs/spec.md)
 - usage examples: [`docs/examples.md`](./docs/examples.md)
 - agent integration example: [`docs/agent-integration-example.md`](./docs/agent-integration-example.md)

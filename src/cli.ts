@@ -4,8 +4,14 @@ import { parseRequestJson, readCliInput } from "./input";
 import { formatFailure, formatSuccess } from "./output";
 import { resolveNextup } from "./resolve";
 import { normalizeRequest } from "./schema";
+import { getHelpText, isHelpFlag } from "./help";
 
 export async function runCli(argv: string[], stdin: NodeJS.ReadStream, stdout: NodeJS.WriteStream, stderr: NodeJS.WriteStream): Promise<number> {
+  if (argv.some(isHelpFlag)) {
+    stdout.write(`${getHelpText()}\n`);
+    return 0;
+  }
+
   try {
     const cliInput = await readCliInput(argv, stdin);
     const requestJson = parseRequestJson(cliInput.requestText);
