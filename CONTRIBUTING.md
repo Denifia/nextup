@@ -87,6 +87,7 @@ GitHub Actions handles CI and release automation.
 - `CI` runs on pushes and pull requests
 - `Release` runs for tags matching `v*`
 - npm publishing is configured for GitHub Actions trusted publishing
+- CI and release workflows install npm `11.10.1` explicitly for compatibility with trusted publishing
 
 Typical release flow:
 
