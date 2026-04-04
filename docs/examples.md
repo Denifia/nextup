@@ -3,6 +3,7 @@
 This document collects practical `nextup` usage examples.
 
 For the full behavior contract, see [`spec.md`](./spec.md).
+For a higher-level workflow example, see [`agent-integration-example.md`](./agent-integration-example.md).
 
 ## Basic vague phrase
 

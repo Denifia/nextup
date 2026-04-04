@@ -175,6 +175,7 @@ Failure:
 
 - behavior spec: [`docs/spec.md`](./docs/spec.md)
 - usage examples: [`docs/examples.md`](./docs/examples.md)
+- agent integration example: [`docs/agent-integration-example.md`](./docs/agent-integration-example.md)
 - implementation notes: [`docs/architecture.md`](./docs/architecture.md)
 - contributor workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - security policy: [`SECURITY.md`](./SECURITY.md)
