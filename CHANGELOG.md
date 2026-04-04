@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.1] - 2026-04-04
+
+### Changed
+
+- publish package as `@denifia/nextup` while keeping the `nextup` CLI command
+- update release automation to use npm trusted publishing from GitHub Actions
+- generate GitHub release notes from `CHANGELOG.md`
+- skip npm publish in the release workflow when the version already exists on npm
+- update development dependencies and GitHub Actions used by CI/release workflows
+- trim unnecessary build artifacts from the published npm package
+
 ## [1.5.0] - 2026-04-04
 
 ### Added

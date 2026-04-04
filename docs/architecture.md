@@ -1,6 +1,6 @@
 # nextup architecture and implementation notes
 
-This document describes the implementation shape of `nextup` v1.5.0.
+This document describes the implementation shape of `nextup` v1.5.1.
 
 For product behavior and contract details, see [`spec.md`](./spec.md).
 
@@ -213,7 +213,7 @@ Random selection uses:
 - the request seed
 - the eligible minute set
 - the anchor minute
-- implementation version `1.5.0`
+- implementation version `1.5.1`
 
 That keeps results stable for the same inputs within the same implementation version.
 

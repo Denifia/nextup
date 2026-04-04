@@ -1,6 +1,6 @@
 # nextup specification
 
-Version: **1.5.0**
+Version: **1.5.1**
 
 `nextup` is a local CLI that resolves a natural-language time expression into one concrete UTC timestamp at minute precision.
 
