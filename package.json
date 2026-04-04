@@ -1,0 +1,53 @@
+{
+  "name": "nextup",
+  "version": "1.5.0",
+  "description": "Resolve a natural-language time expression into one concrete UTC timestamp at minute precision.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "dist/main.js",
+  "bin": {
+    "nextup": "dist/main.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Denifia/nextup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Denifia/nextup/issues"
+  },
+  "homepage": "https://github.com/Denifia/nextup#readme",
+  "keywords": [
+    "cli",
+    "time",
+    "chrono",
+    "timezone",
+    "temporal",
+    "scheduler"
+  ],
+  "scripts": {
+    "clean": "node -e \"const fs=require('node:fs'); for (const p of ['dist','coverage','.tsbuildinfo']) fs.rmSync(p,{recursive:true,force:true});\"",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx src/main.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
+    "chrono-node": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
