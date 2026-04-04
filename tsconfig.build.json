@@ -4,7 +4,9 @@
     "rootDir": "src",
     "outDir": "dist",
     "types": ["node"],
-    "tsBuildInfoFile": ".tsbuildinfo"
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "declaration": false,
+    "sourceMap": false
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules", "test"]
