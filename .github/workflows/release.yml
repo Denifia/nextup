@@ -47,6 +47,9 @@ jobs:
       - name: Pack npm artifact
         run: npm pack --json > npm-pack.json
 
+      - name: Render release notes from changelog
+        run: npm run release:notes
+
       - name: Generate checksums
         shell: bash
         run: |
@@ -60,7 +63,7 @@ jobs:
             *.tgz
             npm-pack.json
             SHA256SUMS.txt
-          generate_release_notes: true
+          body_path: RELEASE_NOTES.md
 
       - name: Publish to npm
         if: ${{ secrets.NPM_TOKEN != '' }}

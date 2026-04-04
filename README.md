@@ -20,6 +20,14 @@ Examples:
 
 ## Install
 
+From npm:
+
+```bash
+npm install -g @denifia/nextup
+```
+
+This installs the `nextup` command.
+
 From a local checkout:
 
 ```bash

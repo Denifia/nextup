@@ -93,7 +93,7 @@ If publishing a release:
 2. run `npm run release:check`
 3. create and push a matching tag such as `v1.5.0`
 
-The release workflow verifies that the pushed tag matches `package.json`.
+The release workflow verifies that the pushed tag matches `package.json` and uses `CHANGELOG.md` as the GitHub release notes body.
 
 ## Documentation
 

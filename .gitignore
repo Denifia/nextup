@@ -13,3 +13,4 @@ pnpm-debug.log*
 *.tgz
 npm-pack.json
 SHA256SUMS.txt
+RELEASE_NOTES.md

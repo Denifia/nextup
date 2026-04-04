@@ -10,15 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - initial `nextup` CLI implementation
 - strict JSON request/response contract
-- request validation for expression, timestamps, intervals, timezone, strategy, and random settings
-- optional side-car config for day-part overrides
+- request validation for expressions, structured timestamps, intervals, timezone, strategy, and random settings
+- optional side-car config for `morning`, `afternoon`, `evening`, and `night` overrides
 - natural-language parsing with `chrono-node`
-- timezone-safe and DST-aware resolution using Temporal
-- supported strategies: `centered`, `largest-segment-midpoint`, `random`, `earliest`, `latest`
+- timezone-safe resolution using Temporal
+- supported strategies: `centered`, `largest-segment-midpoint`, `random`, `earliest`, and `latest`
 - deterministic seeded random mode with shape and spread controls
-- unit and integration test coverage across validation, resolution, CLI behavior, and DST edge cases
-- GitHub Actions CI workflow
-- GitHub release workflow with packaged tarball artifacts and optional npm publish
-- user-facing `README.md`
-- contributor-facing `CONTRIBUTING.md`
-- refactored docs split into `docs/spec.md` and `docs/architecture.md`
+- test coverage for validation, resolution, CLI behavior, and timezone edge cases
+- GitHub Actions CI and release automation

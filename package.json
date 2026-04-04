@@ -1,5 +1,5 @@
 {
-  "name": "nextup",
+  "name": "@denifia/nextup",
   "version": "1.5.0",
   "description": "CLI to resolve natural-language time expressions into concrete UTC minutes.",
   "license": "MIT",
@@ -43,6 +43,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "release:check": "npm run typecheck && npm test && npm run build && npm pack --dry-run",
+    "release:notes": "node scripts/render-release-notes.mjs",
     "prepack": "npm run clean && npm run build"
   },
   "dependencies": {
