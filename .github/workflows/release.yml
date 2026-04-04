@@ -16,8 +16,6 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Checkout
@@ -67,8 +65,5 @@ jobs:
             SHA256SUMS.txt
           body_path: RELEASE_NOTES.md
 
-      - name: Publish to npm
-        if: ${{ env.NPM_TOKEN != '' }}
-        env:
-          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+      - name: Publish to npm via trusted publishing
         run: npm publish --provenance --access public

@@ -86,6 +86,7 @@ GitHub Actions handles CI and release automation.
 
 - `CI` runs on pushes and pull requests
 - `Release` runs for tags matching `v*`
+- npm publishing is configured for GitHub Actions trusted publishing
 
 If publishing a release:
 
@@ -93,7 +94,7 @@ If publishing a release:
 2. run `npm run release:check`
 3. create and push a matching tag such as `v1.5.0`
 
-The release workflow verifies that the pushed tag matches `package.json` and uses `CHANGELOG.md` as the GitHub release notes body.
+The release workflow verifies that the pushed tag matches `package.json`, uses `CHANGELOG.md` as the GitHub release notes body, and publishes to npm via trusted publishing.
 
 ## Documentation
 
